@@ -1,0 +1,24 @@
+/*
+  Aorizon Studio Rebranded Logo Overrides
+  This overrides Framer's default SVG masks and gradients for logos
+  to render the custom AORIZON.svg logo crisp and clear.
+*/
+
+.framer-1v6xw78, .framer-17hixuc, .framer-16c4q0v, .framer-7nrjcm, .framer-ywp1nv {
+  mask: none !important;
+  -webkit-mask: none !important;
+  background-image: url("AORIZON.svg") !important;
+  background-color: transparent !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+/* Hide HeroMetaBar, ScrollPrompt, NavbarCTA, and FooterTopContainer elements */
+[data-framer-name="HeroMetaBar"],
+[data-framer-name="ScrollPrompt"],
+[data-framer-name="BtnPrimary"],
+[name="NavbarCTA"],
+[data-framer-name="FooterTopContainer"] {
+  display: none !important;
+}

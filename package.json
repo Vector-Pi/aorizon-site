@@ -1,0 +1,13 @@
+{
+  "name": "midu-studio-replica",
+  "version": "1.0.0",
+  "description": "An exact replica of midu.design website using HTML, CSS, JS",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
