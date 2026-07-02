@@ -45,18 +45,25 @@ function hideElementsWithText(texts) {
   });
 }
 
-// Replace specific images with background.png
+// Replace specific images
 function replaceImages() {
   // Find all img tags
   const images = document.querySelectorAll('img');
   images.forEach(img => {
-    // Check if it's the image we want to replace (using alt text or src)
+    // Check for the desktop mockup image
     if (
       (img.alt && img.alt.includes('Desktop mockup displaying Fixa app hero screen')) ||
       (img.src && img.src.includes('u6jfgsjP6E6Lpm0j1zcz3Pd1kyY'))
     ) {
       img.src = 'background.png';
-      // Clear srcset
+      img.srcset = '';
+    }
+    // Check for the Midu Studio Logo image
+    if (
+      (img.alt && img.alt.includes('Midu Studio Logo')) ||
+      (img.src && img.src.includes('HwtHwcHTsWUUbrz9KdjxmWjRe7o'))
+    ) {
+      img.src = 'logos.png';
       img.srcset = '';
     }
   });
@@ -72,6 +79,18 @@ function replaceText() {
     {
       search: 'Midu is a research-driven design studio that treats every project like its own product. We go deep into your market  and your users before designing a single screen.',
       replace: 'Aorizon is a research-driven organisation that treats every project like its own product. We go deep into your market and your users before designing every single screen. The result: Digital experiences that don\'t just look sharp, they perform.'
+    },
+    {
+      search: 'Midu Studio Design Process Overview',
+      replace: 'Aorizon Design Process Overview'
+    },
+    {
+      search: 'From research to launch in three phases: Blueprint, Spark, and Build. See how Midu Studio turns ideas into polished digital products with a research-first approach.',
+      replace: 'From research to launch in three phases: Blueprint, Spark, and Build. See how Aorizon turns ideas into polished digital products with a research-first approach.'
+    },
+    {
+      search: 'Midu Studio',
+      replace: 'Aorizon'
     }
   ];
 
@@ -92,11 +111,14 @@ function replaceText() {
 
   let node;
   while ((node = walker.nextNode())) {
+    let text = node.textContent;
     for (const rep of replacements) {
-      if (node.textContent && node.textContent.includes(rep.search)) {
-        node.textContent = rep.replace;
+      if (text && text.includes(rep.search)) {
+        // Use a global replace to handle multiple occurrences
+        text = text.split(rep.search).join(rep.replace);
       }
     }
+    node.textContent = text;
   }
 }
 

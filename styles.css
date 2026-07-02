@@ -22,7 +22,7 @@
   display: none !important;
 }
 
-/* Hide HeroMetaBar, ScrollPrompt, NavbarCTA, FooterTopContainer, MenuCentral, ProjectsGrid, WorksIntroHeading, and Frame 1000005244 elements */
+/* Hide HeroMetaBar, ScrollPrompt, NavbarCTA, FooterTopContainer, MenuCentral, ProjectsGrid, WorksIntroHeading, Frame 1000005244, open, and BuildContentContainer elements */
 [data-framer-name="HeroMetaBar"],
 [data-framer-name="ScrollPrompt"],
 [data-framer-name="BtnPrimary"],
@@ -31,6 +31,14 @@
 [data-framer-name="MenuCentral"],
 [data-framer-name="ProjectsGrid"],
 [data-framer-name="WorksIntroHeading"],
-[data-framer-name="Frame 1000005244"] {
+[data-framer-name="Frame 1000005244"],
+[data-framer-name="open"],
+[data-framer-name="BuildContentContainer"] {
   display: none !important;
+}
+
+/* Fix empty space by removing fixed height from BuildSection */
+.framer-xt5gze {
+  height: auto !important;
+  min-height: auto !important;
 }
