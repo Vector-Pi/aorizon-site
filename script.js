@@ -91,6 +91,10 @@ function replaceText() {
     {
       search: 'Midu Studio',
       replace: 'Aorizon'
+    },
+    {
+      search: 'Midu',
+      replace: 'Aorizon'
     }
   ];
 
@@ -122,15 +126,39 @@ function replaceText() {
   }
 }
 
-// Update button links
-function updateButtonLinks() {
+// Update links and emails
+function updateLinksAndEmails() {
   // Find all links and update hrefs
   const links = document.querySelectorAll('a');
   links.forEach(link => {
     if (link.getAttribute('href') === './how-we-work') {
       link.setAttribute('href', 'how-we-work.html');
     }
+    // Update mailto links
+    const href = link.getAttribute('href');
+    if (href && href.includes('contact@midu.design')) {
+      link.setAttribute('href', href.replace('contact@midu.design', 'contact@aorizon.in'));
+    }
   });
+  
+  // Also update text content of email addresses
+  const walker = document.createTreeWalker(
+    document.body,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode: function(node) {
+        if (node.textContent && node.textContent.includes('contact@midu.design')) {
+          return NodeFilter.FILTER_ACCEPT;
+        }
+        return NodeFilter.FILTER_SKIP;
+      }
+    }
+  );
+  
+  let node;
+  while ((node = walker.nextNode())) {
+    node.textContent = node.textContent.split('contact@midu.design').join('contact@aorizon.in');
+  }
 }
 
 // Initial check
@@ -142,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
   hideElementsWithText(textsToHide);
   replaceImages();
   replaceText();
-  updateButtonLinks();
+  updateLinksAndEmails();
 });
 
 // Watch for dynamic changes (Framer hydration)
@@ -150,7 +178,7 @@ const observer = new MutationObserver(() => {
   hideElementsWithText(textsToHide);
   replaceImages();
   replaceText();
-  updateButtonLinks();
+  updateLinksAndEmails();
 });
 
 observer.observe(document.body, {
