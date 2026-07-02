@@ -4,14 +4,16 @@
 */
 
 // Hide specific text elements
-function hideElementsWithText(text) {
+function hideElementsWithText(texts) {
   const walker = document.createTreeWalker(
     document.body,
     NodeFilter.SHOW_TEXT,
     {
       acceptNode: function(node) {
-        if (node.textContent && node.textContent.includes(text)) {
-          return NodeFilter.FILTER_ACCEPT;
+        for (const text of texts) {
+          if (node.textContent && node.textContent.includes(text)) {
+            return NodeFilter.FILTER_ACCEPT;
+          }
         }
         return NodeFilter.FILTER_SKIP;
       }
@@ -43,14 +45,77 @@ function hideElementsWithText(text) {
   });
 }
 
+// Replace specific images with background.png
+function replaceImages() {
+  // Find all img tags
+  const images = document.querySelectorAll('img');
+  images.forEach(img => {
+    // Check if it's the image we want to replace (using alt text or src)
+    if (
+      (img.alt && img.alt.includes('Desktop mockup displaying Fixa app hero screen')) ||
+      (img.src && img.src.includes('u6jfgsjP6E6Lpm0j1zcz3Pd1kyY'))
+    ) {
+      img.src = 'background.png';
+      // Clear srcset
+      img.srcset = '';
+    }
+  });
+}
+
+// Replace specific text
+function replaceText() {
+  const replacements = [
+    {
+      search: 'Explore how Midu has helped businesses elevate their digital presence.',
+      replace: 'Explore how Aorizon helps businesses elevate their digital presence.'
+    },
+    {
+      search: 'Midu is a research-driven design studio that treats every project like its own product. We go deep into your market  and your users before designing a single screen.',
+      replace: 'Aorizon is a research-driven organisation that treats every project like its own product. We go deep into your market and your users before designing every single screen. The result: Digital experiences that don\'t just look sharp, they perform.'
+    }
+  ];
+
+  const walker = document.createTreeWalker(
+    document.body,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode: function(node) {
+        for (const rep of replacements) {
+          if (node.textContent && node.textContent.includes(rep.search)) {
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        }
+        return NodeFilter.FILTER_SKIP;
+      }
+    }
+  );
+
+  let node;
+  while ((node = walker.nextNode())) {
+    for (const rep of replacements) {
+      if (node.textContent && node.textContent.includes(rep.search)) {
+        node.textContent = rep.replace;
+      }
+    }
+  }
+}
+
 // Initial check
+const textsToHide = [
+  'Design for those who want to become a better version of themselves.',
+  '4/5 slots for June'
+];
 document.addEventListener('DOMContentLoaded', () => {
-  hideElementsWithText('Design for those who want to become a better version of themselves.');
+  hideElementsWithText(textsToHide);
+  replaceImages();
+  replaceText();
 });
 
 // Watch for dynamic changes (Framer hydration)
 const observer = new MutationObserver(() => {
-  hideElementsWithText('Design for those who want to become a better version of themselves.');
+  hideElementsWithText(textsToHide);
+  replaceImages();
+  replaceText();
 });
 
 observer.observe(document.body, {
