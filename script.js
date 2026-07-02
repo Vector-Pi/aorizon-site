@@ -159,6 +159,18 @@ function updateLinksAndEmails() {
   while ((node = walker.nextNode())) {
     node.textContent = node.textContent.split('contact@midu.design').join('contact@aorizon.in');
   }
+  
+  // Update page titles explicitly
+  const path = window.location.pathname;
+  if (path.includes('index.html') || path === '/' || path === '/index.html' || path.endsWith('/aorizon-research/') || path.endsWith('/aorizon-research')) {
+    document.title = 'Aorizon';
+  } else if (path.includes('how-we-work.html')) {
+    document.title = 'Aorizon Design Process';
+  } else if (path.includes('privacy-policy.html')) {
+    document.title = 'Privacy Policy';
+  } else if (path.includes('terms-of-use.html')) {
+    document.title = 'Terms of use';
+  }
 }
 
 // Initial check
@@ -171,6 +183,10 @@ document.addEventListener('DOMContentLoaded', () => {
   replaceImages();
   replaceText();
   updateLinksAndEmails();
+  
+  // Fallback to set title after a delay
+  setTimeout(updateLinksAndEmails, 1000);
+  setTimeout(updateLinksAndEmails, 2000);
 });
 
 // Watch for dynamic changes (Framer hydration)
