@@ -122,6 +122,17 @@ function replaceText() {
   }
 }
 
+// Update button links
+function updateButtonLinks() {
+  // Find all links and update hrefs
+  const links = document.querySelectorAll('a');
+  links.forEach(link => {
+    if (link.getAttribute('href') === './how-we-work') {
+      link.setAttribute('href', 'how-we-work.html');
+    }
+  });
+}
+
 // Initial check
 const textsToHide = [
   'Design for those who want to become a better version of themselves.',
@@ -131,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
   hideElementsWithText(textsToHide);
   replaceImages();
   replaceText();
+  updateButtonLinks();
 });
 
 // Watch for dynamic changes (Framer hydration)
@@ -138,6 +150,7 @@ const observer = new MutationObserver(() => {
   hideElementsWithText(textsToHide);
   replaceImages();
   replaceText();
+  updateButtonLinks();
 });
 
 observer.observe(document.body, {
