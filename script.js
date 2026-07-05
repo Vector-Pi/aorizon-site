@@ -235,6 +235,90 @@ function updateServices() {
   applyServiceColumn('ServicesListRight', SERVICES_RIGHT);
 }
 
+// Contact form -> email delivery (replaces Framer's form backend).
+// Submissions are emailed to contact@aorizon.in via Web3Forms.
+//
+// SETUP (one time): create a free access key at https://web3forms.com using the
+// email contact@aorizon.in (Web3Forms sends every submission to the address the
+// key is registered to), then paste it below.
+const WEB3FORMS_ACCESS_KEY = '99a6ca82-1bdf-440a-bb13-45986a296a9c';
+
+function setupContactForm() {
+  document.querySelectorAll('form').forEach(form => {
+    if (form.dataset.aorizonMail) return;                     // already wired
+    if (!form.querySelector('input[name="Email"]')) return;   // not the contact form
+    form.dataset.aorizonMail = '1';
+
+    // Capture phase + stopImmediatePropagation blocks Framer's own submit handler,
+    // so the data goes to email instead of Framer's backend. Native "required"
+    // validation still runs first, so this only fires when the form is valid.
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      const label = form.querySelector('button[type="submit"] .framer-text')
+                 || form.querySelector('button[type="submit"]');
+      const original = label ? label.textContent : '';
+      const setLabel = (t) => { if (label) label.textContent = t; };
+
+      // Honeypots: if a bot filled these hidden fields, pretend success and stop.
+      const botFilled = ['website', 'company'].some(n => {
+        const el = form.querySelector('[name="' + n + '"]');
+        return el && el.value.trim() !== '';
+      });
+      if (botFilled) { showThankYou(form); return; }
+
+      if (WEB3FORMS_ACCESS_KEY === 'YOUR_WEB3FORMS_ACCESS_KEY') {
+        console.error('[Aorizon] Set WEB3FORMS_ACCESS_KEY in script.js to receive form emails.');
+        setLabel('Setup needed');
+        setTimeout(() => setLabel(original), 4000);
+        return;
+      }
+
+      setLabel('Sending...');
+      const data = new FormData(form);
+      data.delete('website');
+      data.delete('company');
+      data.append('access_key', WEB3FORMS_ACCESS_KEY);
+      data.append('subject', 'New project inquiry - Aorizon website');
+      data.append('from_name', 'Aorizon Website');
+
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: data
+        });
+        const out = await res.json();
+        if (!out.success) throw new Error(out.message || 'submission failed');
+        showThankYou(form);
+      } catch (err) {
+        console.error('[Aorizon] Form submission failed:', err);
+        setLabel('Failed - please try again');
+        setTimeout(() => setLabel(original), 5000);
+      }
+    }, true);
+  });
+}
+
+// Replace the form with a "Thanks for reaching out!" confirmation once submitted.
+function showThankYou(form) {
+  form.reset();
+  if (form.nextElementSibling && form.nextElementSibling.classList.contains('aorizon-thankyou')) {
+    form.style.display = 'none';
+    return;
+  }
+  const msg = document.createElement('div');
+  msg.className = 'aorizon-thankyou';
+  msg.setAttribute('role', 'status');
+  msg.textContent = 'Thanks for reaching out!';
+  msg.style.cssText = 'padding:48px 24px;text-align:center;' +
+    'font-family:"Switzer Medium" ,"Switzer Medium Placeholder",sans-serif;' +
+    'font-size:24px;font-weight:500;letter-spacing:-0.03em;color:#ffffff;';
+  form.style.display = 'none';
+  form.parentNode.insertBefore(msg, form.nextSibling);
+}
+
 // Initial check
 const textsToHide = [
   'Design for those who want to become a better version of themselves.',
@@ -246,12 +330,15 @@ document.addEventListener('DOMContentLoaded', () => {
   replaceText();
   updateLinksAndEmails();
   updateServices();
+  setupContactForm();
 
   // Fallback to set title after a delay
   setTimeout(updateLinksAndEmails, 1000);
   setTimeout(updateLinksAndEmails, 2000);
   setTimeout(updateServices, 1000);
   setTimeout(updateServices, 2000);
+  setTimeout(setupContactForm, 1000);
+  setTimeout(setupContactForm, 2000);
 });
 
 // Watch for dynamic changes (Framer hydration)
@@ -261,6 +348,7 @@ const observer = new MutationObserver(() => {
   replaceText();
   updateLinksAndEmails();
   updateServices();
+  setupContactForm();
 });
 
 observer.observe(document.body, {
