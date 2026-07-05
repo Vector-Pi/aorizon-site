@@ -175,7 +175,7 @@ function updateLinksAndEmails() {
   }
 }
 
-// Aorizon services - enforced client-side because the remote Framer bundle
+// Aorizon services — enforced client-side because the remote Framer bundle
 // rebuilds the services list on hydration, discarding any SSR edits.
 // Left/right columns mirror the "Our tools & your brand" section layout.
 const SERVICES_LEFT = [
