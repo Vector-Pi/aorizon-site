@@ -162,15 +162,77 @@ function updateLinksAndEmails() {
   
   // Update page titles explicitly
   const path = window.location.pathname;
-  if (path.includes('index.html') || path === '/' || path === '/index.html' || path.endsWith('/aorizon-research/') || path.endsWith('/aorizon-research')) {
+  const filename = path.split('/').pop();
+  
+  if (filename === 'index.html' || filename === '' || filename === '/' || filename === 'index') {
     document.title = 'Aorizon';
-  } else if (path.includes('how-we-work.html')) {
+  } else if (filename === 'how-we-work.html' || filename === 'how-we-work') {
     document.title = 'Aorizon Design Process';
-  } else if (path.includes('privacy-policy.html')) {
+  } else if (filename === 'privacy-policy.html' || filename === 'privacy-policy') {
     document.title = 'Privacy Policy';
-  } else if (path.includes('terms-of-use.html')) {
+  } else if (filename === 'terms-of-use.html' || filename === 'terms-of-use') {
     document.title = 'Terms of use';
   }
+}
+
+// Aorizon services — enforced client-side because the remote Framer bundle
+// rebuilds the services list on hydration, discarding any SSR edits.
+// Left/right columns mirror the "Our tools & your brand" section layout.
+const SERVICES_LEFT = [
+  { title: 'Software Engineering', label: 'Tech',
+    desc: 'Every line of code is optimized. From architecture design to production deployment, we build robust enterprise solutions that drive business scaling.' },
+  { title: 'AI & Machine Learning', label: 'Tech',
+    desc: 'Custom LLM integrations, real-time computer vision pipelines, autonomous agent workflows, and intelligent process automation designed to scale your operations.' },
+  { title: 'Development Agency', label: 'Tech',
+    desc: 'End-to-end product development. We design, build, and ship web, mobile, and enterprise software — turning ambitious ideas into production-ready systems.' },
+  { title: 'Investment Consulting', label: 'Consulting',
+    desc: 'Strategic guidance for capital decisions. We help you evaluate opportunities, structure deals, and align technology bets with long-term returns.' },
+  { title: 'Risk Advisory & Investment Analysis', label: 'Risk & Investment Analysis',
+    desc: 'Clarity before you commit. We assess risk, model scenarios, and deliver rigorous analysis so every investment decision is grounded in data.' },
+  { title: 'National Scale Exams', label: 'Education',
+    desc: 'Assessment infrastructure built for scale. We design and deliver secure, reliable platforms that power examinations for entire nations.' }
+];
+const SERVICES_RIGHT = [
+  { title: 'Consulting', label: 'Consulting',
+    desc: 'Strategic engineering advisory in Quantum Machine Learning, Deep Learning optimizations, neural network design, and AI infrastructure architectures.' },
+  { title: 'Research Technology (ART)', label: 'Tech',
+    desc: 'Our specialized research division focusing on fundamental AI research, academic publications, technical patents, and experimental products.' },
+  { title: 'R&D & Prototyping Services', label: 'Tech',
+    desc: 'From concept to working prototype. We de-risk new ideas fast, validating technology and product direction before full-scale investment.' },
+  { title: 'Marketing & Business Development', label: 'Marketing / Business Development',
+    desc: 'Growth engineered end to end. We build the positioning, campaigns, and partnerships that take products to market and open new revenue channels.' },
+  { title: 'Building OS for Researchers & Labs', label: 'Education',
+    desc: 'Operating systems for discovery. We build the digital infrastructure that helps researchers and labs run, collaborate, and scale their work.' }
+];
+
+function setCardText(card, item) {
+  const h3 = card.querySelector('h3');
+  if (h3 && h3.textContent !== item.title) h3.textContent = item.title;
+  const label = card.querySelector('.framer-7apetj .framer-text');
+  if (label && label.textContent !== item.label) label.textContent = item.label;
+  const desc = card.querySelector('.framer-kkdlfx .framer-text');
+  if (desc && desc.textContent !== item.desc) desc.textContent = item.desc;
+}
+
+function applyServiceColumn(columnName, items) {
+  const col = document.querySelector('[data-framer-name="' + columnName + '"]');
+  if (!col) return;
+  let cards = Array.from(col.querySelectorAll(':scope > [data-framer-name="ServiceItem"]'));
+  if (cards.length === 0) return; // Framer hasn't rendered the list yet
+  const template = cards[0];
+  // Add cards until we have one per desired service (clone the first rendered card).
+  while (cards.length < items.length) {
+    const clone = template.cloneNode(true);
+    clone.setAttribute('data-aorizon-extra', '1');
+    col.appendChild(clone);
+    cards.push(clone);
+  }
+  items.forEach((item, i) => setCardText(cards[i], item));
+}
+
+function updateServices() {
+  applyServiceColumn('ServicesListLeft', SERVICES_LEFT);
+  applyServiceColumn('ServicesListRight', SERVICES_RIGHT);
 }
 
 // Initial check
@@ -183,10 +245,13 @@ document.addEventListener('DOMContentLoaded', () => {
   replaceImages();
   replaceText();
   updateLinksAndEmails();
-  
+  updateServices();
+
   // Fallback to set title after a delay
   setTimeout(updateLinksAndEmails, 1000);
   setTimeout(updateLinksAndEmails, 2000);
+  setTimeout(updateServices, 1000);
+  setTimeout(updateServices, 2000);
 });
 
 // Watch for dynamic changes (Framer hydration)
@@ -195,6 +260,7 @@ const observer = new MutationObserver(() => {
   replaceImages();
   replaceText();
   updateLinksAndEmails();
+  updateServices();
 });
 
 observer.observe(document.body, {
