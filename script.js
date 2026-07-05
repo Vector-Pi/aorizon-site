@@ -175,7 +175,7 @@ function updateLinksAndEmails() {
   }
 }
 
-// Aorizon services - enforced client-side because the remote Framer bundle
+// Aorizon services — enforced client-side because the remote Framer bundle
 // rebuilds the services list on hydration, discarding any SSR edits.
 // Left/right columns mirror the "Our tools & your brand" section layout.
 const SERVICES_LEFT = [
@@ -184,7 +184,7 @@ const SERVICES_LEFT = [
   { title: 'AI & Machine Learning', label: 'Tech',
     desc: 'Custom LLM integrations, real-time computer vision pipelines, autonomous agent workflows, and intelligent process automation designed to scale your operations.' },
   { title: 'Development Agency', label: 'Tech',
-    desc: 'End-to-end product development. We design, build, and ship web, mobile, and enterprise software - turning ambitious ideas into production-ready systems.' },
+    desc: 'End-to-end product development. We design, build, and ship web, mobile, and enterprise software — turning ambitious ideas into production-ready systems.' },
   { title: 'Investment Consulting', label: 'Consulting',
     desc: 'Strategic guidance for capital decisions. We help you evaluate opportunities, structure deals, and align technology bets with long-term returns.' },
   { title: 'Risk Advisory & Investment Analysis', label: 'Risk & Investment Analysis',
