@@ -66,6 +66,11 @@ function replaceImages() {
       img.src = 'logos.png';
       img.srcset = '';
     }
+    // Small "Aorizon icon" marquee logos (96x96) -> local logo
+    if (img.src && img.src.includes('jatqKLYc66zpnjPJ6yFLbLQAzZ8')) {
+      img.src = 'logos.png';
+      img.srcset = '';
+    }
   });
 }
 
