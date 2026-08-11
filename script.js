@@ -121,6 +121,26 @@ function replaceText() {
       search: '/ per month',
       replace: '/ per project'
     }
+    ,
+    {
+      search: 'per month',
+      replace: 'per project'
+    }
+    ,
+    {
+      search: '3-5k',
+      replace: 'below $499'
+    }
+    ,
+    {
+      search: '5-10k',
+      replace: '$499-899'
+    }
+    ,
+    {
+      search: '10k+',
+      replace: '$899+'
+    }
   ];
 
   const walker = document.createTreeWalker(
