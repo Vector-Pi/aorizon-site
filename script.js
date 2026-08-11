@@ -101,6 +101,26 @@ function replaceText() {
       search: 'Midu',
       replace: 'Aorizon'
     }
+    ,
+    {
+      search: '$3000',
+      replace: '$499'
+    }
+    ,
+    {
+      search: '$5000',
+      replace: '$899'
+    }
+    ,
+    {
+      search: '$3500',
+      replace: '$1299'
+    }
+    ,
+    {
+      search: '/ per month',
+      replace: '/ per project'
+    }
   ];
 
   const walker = document.createTreeWalker(
