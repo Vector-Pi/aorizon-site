@@ -104,17 +104,17 @@ function replaceText() {
     ,
     {
       search: '$3000',
-      replace: '$499'
+      replace: '$299'
     }
     ,
     {
       search: '$5000',
-      replace: '$899'
+      replace: '$499'
     }
     ,
     {
       search: '$3500',
-      replace: '$1299'
+      replace: '$699'
     }
     ,
     {
