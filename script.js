@@ -45,6 +45,88 @@ function hideElementsWithText(texts) {
   });
 }
 
+function injectHideStyles() {
+  if (document.getElementById('aorizon-hide-styles')) return;
+  const style = document.createElement('style');
+  style.id = 'aorizon-hide-styles';
+  style.textContent = [
+    '[data-framer-name="UI/UX"] { display: none !important; }',
+    '[data-framer-name="ServicesListContainer"] a,',
+    '[data-framer-name="ServicesListContainer"] [data-highlight="true"],',
+    '[data-framer-name="ServicesListContainer"] [tabindex="0"] {',
+    '  cursor: default !important;',
+    '  pointer-events: none !important;',
+    '}',
+    '[data-framer-name="ServicesListContainer"] [tabindex] {',
+    '  outline: none !important;',
+    '}'
+  ].join('\n');
+  document.head.appendChild(style);
+}
+
+function hideFramerComponents() {
+  const names = ['UI/UX'];
+  names.forEach(name => {
+    document.querySelectorAll('[data-framer-name="' + name + '"]').forEach(el => {
+      if (el.style.display !== 'none') {
+        el.style.display = 'none';
+      }
+    });
+  });
+}
+
+var servicesCaptureInstalled = false;
+function installServicesClickBlocker() {
+  if (servicesCaptureInstalled) return;
+  servicesCaptureInstalled = true;
+
+  function isInsideServices(target) {
+    if (!target || !target.closest) return false;
+    var container = target.closest('[data-framer-name="ServicesListContainer"]');
+    return !!container;
+  }
+
+  var eventsToBlock = ['click', 'pointerdown', 'pointerup', 'mousedown', 'mouseup', 'keydown', 'keyup'];
+  eventsToBlock.forEach(function(evt) {
+    document.addEventListener(evt, function(e) {
+      if (isInsideServices(e.target)) {
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+    }, true);
+  });
+}
+
+function disableServicesList() {
+  installServicesClickBlocker();
+  var container = document.querySelector('[data-framer-name="ServicesListContainer"]');
+  if (!container) return;
+
+  container.querySelectorAll('a').forEach(function(a) {
+    a.removeAttribute('href');
+    a.removeAttribute('target');
+    a.removeAttribute('rel');
+    a.style.pointerEvents = 'none';
+    a.style.cursor = 'default';
+    a.setAttribute('data-aorizon-disabled-link', '1');
+  });
+
+  container.querySelectorAll('[tabindex]').forEach(function(el) {
+    el.removeAttribute('tabindex');
+  });
+
+  container.querySelectorAll('[data-highlight]').forEach(function(el) {
+    el.removeAttribute('data-highlight');
+  });
+
+  container.querySelectorAll('[data-framer-name="Variant 1"], [data-framer-name="ServiceItem"]').forEach(function(el) {
+    el.style.cursor = 'default';
+    el.style.pointerEvents = 'none';
+  });
+}
+
 // Replace specific images
 function replaceImages() {
   // Find all img tags
@@ -66,17 +148,36 @@ function replaceImages() {
       img.src = 'logos.png';
       img.srcset = '';
     }
-    // Small "Aorizon icon" marquee logos (96x96) -> local logo
-    if (img.src && img.src.includes('jatqKLYc66zpnjPJ6yFLbLQAzZ8')) {
-      img.src = 'logos.png';
-      img.srcset = '';
-    }
   });
 }
 
 // Replace specific text
 function replaceText() {
   const replacements = [
+    {
+      search: 'Explore how Midu has helped businesses elevate their digital presence.',
+      replace: 'Explore how Aorizon helps businesses elevate their digital presence.'
+    },
+    {
+      search: 'Midu is a research-driven design studio that treats every project like its own product. We go deep into your market  and your users before designing a single screen.',
+      replace: 'Aorizon is a research-driven organisation that treats every project like its own product. We go deep into your market and your users before designing every single screen. The result: Digital experiences that don\'t just look sharp, they perform.'
+    },
+    {
+      search: 'Midu Studio Design Process Overview',
+      replace: 'Aorizon Design Process Overview'
+    },
+    {
+      search: 'From research to launch in three phases: Blueprint, Spark, and Build. See how Midu Studio turns ideas into polished digital products with a research-first approach.',
+      replace: 'From research to launch in three phases: Blueprint, Spark, and Build. See how Aorizon turns ideas into polished digital products with a research-first approach.'
+    },
+    {
+      search: 'Midu Studio',
+      replace: 'Aorizon'
+    },
+    {
+      search: 'Midu',
+      replace: 'Aorizon'
+    },
     {
       search: 'Explore how Midu has helped businesses elevate their digital presence.',
       replace: 'Explore how Aorizon helps businesses elevate their digital presence.'
@@ -370,6 +471,10 @@ const textsToHide = [
   '4/5 slots for June'
 ];
 document.addEventListener('DOMContentLoaded', () => {
+  injectHideStyles();
+  installServicesClickBlocker();
+  disableServicesList();
+  hideFramerComponents();
   hideElementsWithText(textsToHide);
   replaceImages();
   replaceText();
@@ -384,10 +489,20 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(updateServices, 2000);
   setTimeout(setupContactForm, 1000);
   setTimeout(setupContactForm, 2000);
+  setTimeout(hideFramerComponents, 1000);
+  setTimeout(hideFramerComponents, 2000);
+  setTimeout(hideFramerComponents, 4000);
+  setTimeout(disableServicesList, 1000);
+  setTimeout(disableServicesList, 2000);
+  setTimeout(disableServicesList, 4000);
 });
 
 // Watch for dynamic changes (Framer hydration)
 const observer = new MutationObserver(() => {
+  injectHideStyles();
+  installServicesClickBlocker();
+  disableServicesList();
+  hideFramerComponents();
   hideElementsWithText(textsToHide);
   replaceImages();
   replaceText();
