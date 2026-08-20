@@ -1,5 +1,5 @@
 /*
-  Midu Studio Replica Script File
+  Product Lab Replica Script File
   All interactions, custom animations, and layout triggers are loaded inline and from external ESM scripts directly in the HTML pages.
 */
 
@@ -140,7 +140,7 @@ function replaceImages() {
       img.src = 'background.png';
       img.srcset = '';
     }
-    // Check for the Midu Studio Logo image
+    // Check for the Midu Logo image
     if (
       (img.alt && img.alt.includes('Midu Studio Logo')) ||
       (img.src && img.src.includes('HwtHwcHTsWUUbrz9KdjxmWjRe7o'))
@@ -151,7 +151,7 @@ function replaceImages() {
   });
 }
 
-// Replace specific text
+// Replace specific text + image alt attributes
 function replaceText() {
   const replacements = [
     {
@@ -160,11 +160,19 @@ function replaceText() {
     },
     {
       search: 'Midu is a research-driven design studio that treats every project like its own product. We go deep into your market  and your users before designing a single screen.',
-      replace: 'Aorizon is a research-driven organisation that treats every project like its own product. We go deep into your market and your users before designing every single screen. The result: Digital experiences that don\'t just look sharp, they perform.'
+      replace: 'Aorizon is a research-driven product lab that treats every project like its own product. We go deep into your market  and your users before building a single screen.'
+    },
+    {
+      search: 'Aorizon is a research-driven organisation that treats every project like its own product. We go deep into your market and your users before designing every single screen. The result: Digital experiences that don\'t just look sharp, they perform.',
+      replace: 'Aorizon is a research-driven product lab that treats every project like its own product. We go deep into your market  and your users before building a single screen.'
     },
     {
       search: 'Midu Studio Design Process Overview',
-      replace: 'Aorizon Design Process Overview'
+      replace: 'Aorizon Product Development Process Overview'
+    },
+    {
+      search: 'Aorizon Design Process Overview',
+      replace: 'Aorizon Product Development Process Overview'
     },
     {
       search: 'From research to launch in three phases: Blueprint, Spark, and Build. See how Midu Studio turns ideas into polished digital products with a research-first approach.',
@@ -179,30 +187,94 @@ function replaceText() {
       replace: 'Aorizon'
     },
     {
-      search: 'Explore how Midu has helped businesses elevate their digital presence.',
-      replace: 'Explore how Aorizon helps businesses elevate their digital presence.'
+      search: 'Aorizon is a research-driven design studio that treats every project like its own product. We go deep into your market  and your users before designing a single screen.',
+      replace: 'Aorizon is a research-driven product lab that treats every project like its own product. We go deep into your market  and your users before building a single screen.'
     },
     {
-      search: 'Midu is a research-driven design studio that treats every project like its own product. We go deep into your market  and your users before designing a single screen.',
-      replace: 'Aorizon is a research-driven organisation that treats every project like its own product. We go deep into your market and your users before designing every single screen. The result: Digital experiences that don\'t just look sharp, they perform.'
+      search: 'UI/UX & Web Design Studio for Startups - Aorizon Studio',
+      replace: 'Software & AI Product Development Lab - Aorizon'
     },
     {
-      search: 'Midu Studio Design Process Overview',
-      replace: 'Aorizon Design Process Overview'
+      search: 'Aorizon designs and builds advanced enterprise software, AI systems, and research technology - from concept to launch.',
+      replace: 'Aorizon builds advanced enterprise software, AI systems, and research technology - from concept to launch.'
     },
     {
-      search: 'From research to launch in three phases: Blueprint, Spark, and Build. See how Midu Studio turns ideas into polished digital products with a research-first approach.',
-      replace: 'From research to launch in three phases: Blueprint, Spark, and Build. See how Aorizon turns ideas into polished digital products with a research-first approach.'
+      search: 'We design products that live in the digital world: intuitive UX, sharp UI, immersive 3D and motion. From research to launch, we craft bold, seamless experiences.',
+      replace: 'We build products that live in the digital world: intuitive UX, sharp UI, immersive 3D and motion. From research to launch, we craft bold, seamless experiences.'
     },
     {
-      search: 'Midu Studio',
+      search: 'We design intuitive interfaces for web and mobile products, from first wireframe to development-ready files.',
+      replace: 'We build intuitive interfaces for web and mobile products, from first wireframe to development-ready files.'
+    },
+    {
+      search: 'design',
+      replace: 'projects',
+      exact: true
+    },
+    {
+      search: 'Web design',
+      replace: 'Web products'
+    },
+    {
+      search: 'App design',
+      replace: 'App development'
+    },
+    {
+      search: '3D design',
+      replace: '3D & motion'
+    },
+    {
+      search: 'Not just talented designers',
+      replace: 'Not just talented builders'
+    },
+    {
+      search: 'turned them into professional designs',
+      replace: 'turned them into polished products'
+    },
+    {
+      search: 'From architecture design to production deployment',
+      replace: 'From architecture to production deployment'
+    },
+    {
+      search: 'intelligent process automation designed to scale your operations',
+      replace: 'intelligent process automation built to scale your operations'
+    },
+    {
+      search: 'neural network design, and AI infrastructure architectures',
+      replace: 'neural network architecture, and AI infrastructure solutions'
+    },
+    {
+      search: 'Aorizon Studio - design and development studio brand image',
+      replace: 'Aorizon - product development company brand image'
+    },
+    {
+      search: 'ART Research Platform AI app design by Aorizon Studio',
+      replace: 'ART Research Platform AI product built by Aorizon'
+    },
+    {
+      search: 'Enterprise Platform neobank UX UI design by Aorizon Studio',
+      replace: 'Enterprise Platform neobank UX UI built by Aorizon'
+    },
+    {
+      search: 'Cognitive AI Suite bank neobank UX UI design by Aorizon Studio',
+      replace: 'Cognitive AI Suite bank neobank UX UI built by Aorizon'
+    },
+    {
+      search: 'Quantum Neural Optimizer pet care app design by Aorizon Studio',
+      replace: 'Quantum Neural Optimizer pet care product built by Aorizon'
+    },
+    {
+      search: '2026&nbsp;Aorizon Studio,',
+      replace: '2026&nbsp;Aorizon,'
+    },
+    {
+      search: 'Software & AI Product Development Studio - Aorizon',
+      replace: 'Software & AI Product Development Lab - Aorizon'
+    },
+    {
+      search: 'Aorizon Studio',
       replace: 'Aorizon'
     },
-    {
-      search: 'Midu',
-      replace: 'Aorizon'
-    }
-    ,
     {
       search: '$3000',
       replace: '$299'
@@ -244,32 +316,53 @@ function replaceText() {
     }
   ];
 
+  const applyReplacements = (text) => {
+    if (!text) return text;
+    let out = text;
+    for (const rep of replacements) {
+      if (out.includes(rep.search)) {
+        if (rep.exact && out.trim() !== rep.search) continue;
+        out = out.split(rep.search).join(rep.replace);
+      }
+    }
+    return out;
+  };
+
+  // Replace text nodes
   const walker = document.createTreeWalker(
     document.body,
     NodeFilter.SHOW_TEXT,
     {
       acceptNode: function(node) {
-        for (const rep of replacements) {
-          if (node.textContent && node.textContent.includes(rep.search)) {
-            return NodeFilter.FILTER_ACCEPT;
-          }
-        }
-        return NodeFilter.FILTER_SKIP;
+        return node.textContent && replacements.some(
+          (rep) => node.textContent.includes(rep.search)
+        ) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
       }
     }
   );
 
   let node;
   while ((node = walker.nextNode())) {
-    let text = node.textContent;
-    for (const rep of replacements) {
-      if (text && text.includes(rep.search)) {
-        // Use a global replace to handle multiple occurrences
-        text = text.split(rep.search).join(rep.replace);
-      }
-    }
-    node.textContent = text;
+    const newText = applyReplacements(node.textContent);
+    if (node.textContent !== newText) node.textContent = newText;
   }
+
+  // Replace image alt attributes
+  document.querySelectorAll('img[alt]').forEach(img => {
+    const newAlt = applyReplacements(img.alt);
+    if (img.alt !== newAlt) img.alt = newAlt;
+  });
+
+  // Replace meta title / description tags (defense against late hydration)
+  document.querySelectorAll('title, meta[name="description"], meta[property^="og:"], meta[name^="twitter:"]').forEach(el => {
+    if (el.tagName === 'TITLE') {
+      const t = applyReplacements(el.textContent);
+      if (el.textContent !== t) el.textContent = t;
+    } else if (el.content) {
+      const c = applyReplacements(el.content);
+      if (el.content !== c) el.content = c;
+    }
+  });
 }
 
 // Update links and emails
@@ -313,7 +406,7 @@ function updateLinksAndEmails() {
   if (filename === 'index.html' || filename === '' || filename === '/' || filename === 'index') {
     document.title = 'Aorizon';
   } else if (filename === 'how-we-work.html' || filename === 'how-we-work') {
-    document.title = 'Aorizon Design Process';
+    document.title = 'Aorizon Product Development Process';
   } else if (filename === 'privacy-policy.html' || filename === 'privacy-policy') {
     document.title = 'Privacy Policy';
   } else if (filename === 'terms-of-use.html' || filename === 'terms-of-use') {
@@ -326,21 +419,21 @@ function updateLinksAndEmails() {
 // Left/right columns mirror the "Our tools & your brand" section layout.
 const SERVICES_LEFT = [
   { title: 'Software Engineering', label: 'Tech',
-    desc: 'Every line of code is optimized. From architecture design to production deployment, we build robust enterprise solutions that drive business scaling.' },
+    desc: 'Every line of code is optimized. From architecture to production deployment, we build robust enterprise solutions that drive business scaling.' },
   { title: 'AI & Machine Learning', label: 'Tech',
-    desc: 'Custom LLM integrations, real-time computer vision pipelines, autonomous agent workflows, and intelligent process automation designed to scale your operations.' },
-  { title: 'Development Agency', label: 'Tech',
-    desc: 'End-to-end product development. We design, build, and ship web, mobile, and enterprise software - turning ambitious ideas into production-ready systems.' },
+    desc: 'Custom LLM integrations, real-time computer vision pipelines, autonomous agent workflows, and intelligent process automation built to scale your operations.' },
+  { title: 'Product Development', label: 'Tech',
+    desc: 'End-to-end product development. We build and ship web, mobile, and enterprise software - turning ambitious ideas into production-ready systems.' },
   { title: 'Investment Consulting', label: 'Consulting',
     desc: 'Strategic guidance for capital decisions. We help you evaluate opportunities, structure deals, and align technology bets with long-term returns.' },
   { title: 'Risk Advisory & Investment Analysis', label: 'Risk & Investment Analysis',
     desc: 'Clarity before you commit. We assess risk, model scenarios, and deliver rigorous analysis so every investment decision is grounded in data.' },
   { title: 'National Scale Exams', label: 'Education',
-    desc: 'Assessment infrastructure built for scale. We design and deliver secure, reliable platforms that power examinations for entire nations.' }
+    desc: 'Assessment infrastructure built for scale. We build and deliver secure, reliable platforms that power examinations for entire nations.' }
 ];
 const SERVICES_RIGHT = [
   { title: 'Consulting', label: 'Consulting',
-    desc: 'Strategic engineering advisory in Quantum Machine Learning, Deep Learning optimizations, neural network design, and AI infrastructure architectures.' },
+    desc: 'Strategic engineering advisory in Quantum Machine Learning, Deep Learning optimizations, neural network architecture, and AI infrastructure solutions.' },
   { title: 'Research Technology (ART)', label: 'Tech',
     desc: 'Our specialized research division focusing on fundamental AI research, academic publications, technical patents, and experimental products.' },
   { title: 'R&D & Prototyping Services', label: 'Tech',
@@ -495,6 +588,13 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(disableServicesList, 1000);
   setTimeout(disableServicesList, 2000);
   setTimeout(disableServicesList, 4000);
+  setTimeout(replaceText, 500);
+  setTimeout(replaceText, 1000);
+  setTimeout(replaceText, 2000);
+  setTimeout(replaceText, 4000);
+  setTimeout(hideElementsWithText.bind(null, textsToHide), 1000);
+  setTimeout(hideElementsWithText.bind(null, textsToHide), 2000);
+  setTimeout(hideElementsWithText.bind(null, textsToHide), 4000);
 });
 
 // Watch for dynamic changes (Framer hydration)
