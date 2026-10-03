@@ -9,7 +9,7 @@ function hideElementsWithText(texts) {
     document.body,
     NodeFilter.SHOW_TEXT,
     {
-      acceptNode: function(node) {
+      acceptNode: function (node) {
         for (const text of texts) {
           if (node.textContent && node.textContent.includes(text)) {
             return NodeFilter.FILTER_ACCEPT;
@@ -87,8 +87,8 @@ function installServicesClickBlocker() {
   }
 
   var eventsToBlock = ['click', 'pointerdown', 'pointerup', 'mousedown', 'mouseup', 'keydown', 'keyup'];
-  eventsToBlock.forEach(function(evt) {
-    document.addEventListener(evt, function(e) {
+  eventsToBlock.forEach(function (evt) {
+    document.addEventListener(evt, function (e) {
       if (isInsideServices(e.target)) {
         e.stopImmediatePropagation();
         e.preventDefault();
@@ -104,7 +104,7 @@ function disableServicesList() {
   var container = document.querySelector('[data-framer-name="ServicesListContainer"]');
   if (!container) return;
 
-  container.querySelectorAll('a').forEach(function(a) {
+  container.querySelectorAll('a').forEach(function (a) {
     a.removeAttribute('href');
     a.removeAttribute('target');
     a.removeAttribute('rel');
@@ -113,15 +113,15 @@ function disableServicesList() {
     a.setAttribute('data-aorizon-disabled-link', '1');
   });
 
-  container.querySelectorAll('[tabindex]').forEach(function(el) {
+  container.querySelectorAll('[tabindex]').forEach(function (el) {
     el.removeAttribute('tabindex');
   });
 
-  container.querySelectorAll('[data-highlight]').forEach(function(el) {
+  container.querySelectorAll('[data-highlight]').forEach(function (el) {
     el.removeAttribute('data-highlight');
   });
 
-  container.querySelectorAll('[data-framer-name="Variant 1"], [data-framer-name="ServiceItem"]').forEach(function(el) {
+  container.querySelectorAll('[data-framer-name="Variant 1"], [data-framer-name="ServiceItem"]').forEach(function (el) {
     el.style.cursor = 'default';
     el.style.pointerEvents = 'none';
   });
@@ -314,6 +314,11 @@ function replaceText() {
       search: '10k+',
       replace: '$899+'
     }
+    ,
+    {
+      search: 'parnership',
+      replace: 'partnership'
+    }
   ];
 
   const applyReplacements = (text) => {
@@ -333,7 +338,7 @@ function replaceText() {
     document.body,
     NodeFilter.SHOW_TEXT,
     {
-      acceptNode: function(node) {
+      acceptNode: function (node) {
         return node.textContent && replacements.some(
           (rep) => node.textContent.includes(rep.search)
         ) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
@@ -379,13 +384,13 @@ function updateLinksAndEmails() {
       link.setAttribute('href', href.replace('contact@midu.design', 'contact@aorizon.in'));
     }
   });
-  
+
   // Also update text content of email addresses
   const walker = document.createTreeWalker(
     document.body,
     NodeFilter.SHOW_TEXT,
     {
-      acceptNode: function(node) {
+      acceptNode: function (node) {
         if (node.textContent && node.textContent.includes('contact@midu.design')) {
           return NodeFilter.FILTER_ACCEPT;
         }
@@ -393,16 +398,16 @@ function updateLinksAndEmails() {
       }
     }
   );
-  
+
   let node;
   while ((node = walker.nextNode())) {
     node.textContent = node.textContent.split('contact@midu.design').join('contact@aorizon.in');
   }
-  
+
   // Update page titles explicitly
   const path = window.location.pathname;
   const filename = path.split('/').pop();
-  
+
   if (filename === 'index.html' || filename === '' || filename === '/' || filename === 'index') {
     document.title = 'Aorizon';
   } else if (filename === 'how-we-work.html' || filename === 'how-we-work') {
@@ -418,30 +423,52 @@ function updateLinksAndEmails() {
 // rebuilds the services list on hydration, discarding any SSR edits.
 // Left/right columns mirror the "Our tools & your brand" section layout.
 const SERVICES_LEFT = [
-  { title: 'Software Engineering', label: 'Tech',
-    desc: 'Every line of code is optimized. From architecture to production deployment, we build robust enterprise solutions that drive business scaling.' },
-  { title: 'AI & Machine Learning', label: 'Tech',
-    desc: 'Custom LLM integrations, real-time computer vision pipelines, autonomous agent workflows, and intelligent process automation built to scale your operations.' },
-  { title: 'Product Development', label: 'Tech',
-    desc: 'End-to-end product development. We build and ship web, mobile, and enterprise software - turning ambitious ideas into production-ready systems.' },
-  { title: 'Investment Consulting', label: 'Consulting',
-    desc: 'Strategic guidance for capital decisions. We help you evaluate opportunities, structure deals, and align technology bets with long-term returns.' },
-  { title: 'Risk Advisory & Investment Analysis', label: 'Risk & Investment Analysis',
-    desc: 'Clarity before you commit. We assess risk, model scenarios, and deliver rigorous analysis so every investment decision is grounded in data.' },
-  { title: 'National Scale Exams', label: 'Education',
-    desc: 'Assessment infrastructure built for scale. We build and deliver secure, reliable platforms that power examinations for entire nations.' }
+  {
+    title: 'Software Engineering', label: 'Tech',
+    desc: 'Every line of code is optimized. From architecture to production deployment, we build robust enterprise solutions that drive business scaling.'
+  },
+  {
+    title: 'AI & Machine Learning', label: 'Tech',
+    desc: 'Custom LLM integrations, real-time computer vision pipelines, autonomous agent workflows, and intelligent process automation built to scale your operations.'
+  },
+  {
+    title: 'Product Development', label: 'Tech',
+    desc: 'End-to-end product development. We build and ship web, mobile, and enterprise software - turning ambitious ideas into production-ready systems.'
+  },
+  {
+    title: 'Investment Consulting', label: 'Consulting',
+    desc: 'Strategic guidance for capital decisions. We help you evaluate opportunities, structure deals, and align technology bets with long-term returns.'
+  },
+  {
+    title: 'Risk Advisory & Investment Analysis', label: 'Risk & Investment Analysis',
+    desc: 'Clarity before you commit. We assess risk, model scenarios, and deliver rigorous analysis so every investment decision is grounded in data.'
+  },
+  {
+    title: 'National Scale Exams', label: 'Education',
+    desc: 'Assessment infrastructure built for scale. We build and deliver secure, reliable platforms that power examinations for entire nations.'
+  }
 ];
 const SERVICES_RIGHT = [
-  { title: 'Consulting', label: 'Consulting',
-    desc: 'Strategic engineering advisory in Quantum Machine Learning, Deep Learning optimizations, neural network architecture, and AI infrastructure solutions.' },
-  { title: 'Research Technology (ART)', label: 'Tech',
-    desc: 'Our specialized research division focusing on fundamental AI research, academic publications, technical patents, and experimental products.' },
-  { title: 'R&D & Prototyping Services', label: 'Tech',
-    desc: 'From concept to working prototype. We de-risk new ideas fast, validating technology and product direction before full-scale investment.' },
-  { title: 'Marketing & Business Development', label: 'Marketing / Business Development',
-    desc: 'Growth engineered end to end. We build the positioning, campaigns, and partnerships that take products to market and open new revenue channels.' },
-  { title: 'Building OS for Researchers & Labs', label: 'Education',
-    desc: 'Operating systems for discovery. We build the digital infrastructure that helps researchers and labs run, collaborate, and scale their work.' }
+  {
+    title: 'Consulting', label: 'Consulting',
+    desc: 'Strategic engineering advisory in Quantum Machine Learning, Deep Learning optimizations, neural network architecture, and AI infrastructure solutions.'
+  },
+  {
+    title: 'Research Technology (ART)', label: 'Tech',
+    desc: 'Our specialized research division focusing on fundamental AI research, academic publications, technical patents, and experimental products.'
+  },
+  {
+    title: 'R&D & Prototyping Services', label: 'Tech',
+    desc: 'From concept to working prototype. We de-risk new ideas fast, validating technology and product direction before full-scale investment.'
+  },
+  {
+    title: 'Marketing & Business Development', label: 'Marketing / Business Development',
+    desc: 'Growth engineered end to end. We build the positioning, campaigns, and partnerships that take products to market and open new revenue channels.'
+  },
+  {
+    title: 'Building OS for Researchers & Labs', label: 'Education',
+    desc: 'Operating systems for discovery. We build the digital infrastructure that helps researchers and labs run, collaborate, and scale their work.'
+  }
 ];
 
 function setCardText(card, item) {
@@ -496,7 +523,7 @@ function setupContactForm() {
       e.stopImmediatePropagation();
 
       const label = form.querySelector('button[type="submit"] .framer-text')
-                 || form.querySelector('button[type="submit"]');
+        || form.querySelector('button[type="submit"]');
       const original = label ? label.textContent : '';
       const setLabel = (t) => { if (label) label.textContent = t; };
 
