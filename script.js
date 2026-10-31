@@ -12,12 +12,12 @@ var PAGE = (function () {
 })();
 
 var TITLES = {
-  'index': 'Aorizon — technology, consulting, marketing, investment and R&D, built on research',
+  'index': 'Aorizon | Technology, consulting, marketing, investment and R&D, built on research',
   'how-we-work': 'How we work | Aorizon',
-  'technology': 'Technology — software engineering and AI & ML | Aorizon',
-  'consulting': 'Consulting — technology and business decisions | Aorizon',
-  'marketing': 'Marketing — positioning, materials and measurement | Aorizon',
-  'investment': 'Investment — advisory and transaction support | Aorizon',
+  'technology': 'Technology: software engineering and AI & ML | Aorizon',
+  'consulting': 'Consulting: technology and business decisions | Aorizon',
+  'marketing': 'Marketing: positioning, materials and measurement | Aorizon',
+  'investment': 'Investment: advisory and transaction support | Aorizon',
   'research': 'Research & development as a service | Aorizon',
   'contact': 'Contact Aorizon',
   'privacy-policy': 'Privacy Policy | Aorizon',
@@ -371,9 +371,9 @@ var PAGES = {
     thesis: 'Research first. Then design and engineering by the same people.',
     paragraph: 'Before we open an editor, we open our research tools. We analyse the problem, the market, the existing systems and the people who will use the result. Then the same team designs every screen and state, formulates the models and builds the system in milestones you can see and run.',
     collage: ['Research', 'Requirements', 'Architecture', 'Milestones', 'Evaluation', 'Handover'],
-    g1: { label: 'Blueprint, 1–2 weeks', title: 'Research, strategy and the plan that makes everything else possible.', paragraph: 'We analyse the problem, the market, the existing systems and the people who will use the result. The output is a strategy that answers one question:', question: ['what should this system', 'actually do, and for whom?'], items: ['Problem definition and success criteria', 'Market, competitor and technical landscape analysis', 'Requirements and feature definition', 'Architecture options with a recommendation', 'A strategy brief that explains every decision'] },
-    g2: { title: 'Build, 2–6 weeks: design, engineering and the models, by the people who did the research.', paragraph: 'Once the direction is locked we design every screen, state and interaction, formulate the models and algorithms, and build the system in milestones you can see and run. Work is shared early and often through your repositories.', items: ['Working software at every milestone', 'UI and component system where there is an interface', 'Models, evaluation results and training notes', 'Tests, observability and deployment pipeline', 'Progress updates every 48 hours or sooner'] },
-    g3: { label: 'Launch, 1–2 weeks', title: 'Production deployment and a handover your team can run without us.', paragraph: 'We deploy to production, document everything your engineers need, train the people who will own it, and agree what happens next: a maintenance plan, a lab retainer, or nothing at all.', phone: 'Handed over, running.', phone2: 'Specs, APIs, model files and documentation, all there.', items: ['Production deployment', 'Developer handover: specs, APIs, model files, annotations', 'Operations runbook', 'Training session for your team', 'Optional maintenance or lab plan'] },
+    g1: { label: 'Blueprint, 1 to 2 weeks', title: 'Research, strategy and the plan that makes everything else possible.', paragraph: 'We analyse the problem, the market, the existing systems and the people who will use the result. The output is a strategy that answers one question:', question: ['what should this system', 'actually do, and for whom?'], items: ['Problem definition and success criteria', 'Market, competitor and technical landscape analysis', 'Requirements and feature definition', 'Architecture options with a recommendation', 'A strategy brief that explains every decision'] },
+    g2: { title: 'Build, 2 to 6 weeks: design, engineering and the models, by the people who did the research.', paragraph: 'Once the direction is locked we design every screen, state and interaction, formulate the models and algorithms, and build the system in milestones you can see and run. Work is shared early and often through your repositories.', items: ['Working software at every milestone', 'UI and component system where there is an interface', 'Models, evaluation results and training notes', 'Tests, observability and deployment pipeline', 'Progress updates every 48 hours or sooner'] },
+    g3: { label: 'Launch, 1 to 2 weeks', title: 'Production deployment and a handover your team can run without us.', paragraph: 'We deploy to production, document everything your engineers need, train the people who will own it, and agree what happens next: a maintenance plan, a lab retainer, or nothing at all.', phone: 'Handed over, running.', phone2: 'Specs, APIs, model files and documentation, all there.', items: ['Production deployment', 'Developer handover: specs, APIs, model files, annotations', 'Operations runbook', 'Training session for your team', 'Optional maintenance or lab plan'] },
     faq: [['What does it cost?', 'Monthly plans start at ₹75,000 for Indian customers ($1,400 international); fixed-scope projects from ₹80,000 ($1,500). The proposal is free.'], ['How long does it take?', 'The phase durations above are typical. A timeline is agreed for the specific engagement.'], ['Can a project span more than one practice?', 'Yes. Put all of it in the brief. A product build with a launch campaign, or a transaction with technical due diligence, is scoped as one engagement.']]
   },
   'technology': {
