@@ -247,20 +247,33 @@ function setFaq(items) {
     });
   });
 }
-// Tools across the five practices and the engineering stack. Logos from Simple Icons (brand colour).
+// Industry tools: engineering CAD/CAE/EDA/simulation suites first, then hardware and the other practices' tools.
+// [name, simpleicons slug] or [name, null, badge text, badge colour] when Simple Icons has no logo for it.
 var TOOLS = [
-  ['Python', 'python'], ['PyTorch', 'pytorch'], ['TensorFlow', 'tensorflow'], ['Hugging Face', 'huggingface'], ['OpenCV', 'opencv'],
-  ['Jupyter', 'jupyter'], ['Weights & Biases', 'weightsandbiases'], ['Docker', 'docker'], ['Kubernetes', 'kubernetes'], ['Terraform', 'terraform'],
-  ['Render', 'render'], ['Google Cloud', 'googlecloud'], ['PostgreSQL', 'postgresql'], ['Redis', 'redis'], ['FastAPI', 'fastapi'],
-  ['Node.js', 'nodedotjs'], ['TypeScript', 'typescript'], ['React', 'react'], ['Next.js', 'nextdotjs'], ['Flutter', 'flutter'],
-  ['GitHub', 'github'], ['Linux', 'linux'], ['Figma', 'figma'], ['Framer', 'framer'],
-  ['Google Analytics', 'googleanalytics'], ['HubSpot', 'hubspot'], ['Meta Ads', 'meta'], ['Mailchimp', 'mailchimp'],
-  ['Google Sheets', 'googlesheets'], ['Notion', 'notion'], ['Jira', 'jira'], ['Linear', 'linear'],
-  ['arXiv', 'arxiv'], ['LaTeX', 'latex'], ['MLflow', 'mlflow'], ['Claude', 'claude']
+  ['ANSYS', 'ansys'], ['Siemens Star-CCM+', null, 'STAR-CCM+', '#009999'], ['Siemens NX', null, 'NX', '#009999'], ['Siemens', 'siemens'],
+  ['SolidWorks', null, 'SOLID\nWORKS', '#D7261E'], ['CATIA', null, 'CATIA', '#005386'], ['Abaqus', null, 'Abaqus', '#005386'], ['Dassault Systèmes', 'dassaultsystemes'],
+  ['AutoCAD', 'autocad'], ['Autodesk Inventor', null, 'Inventor', '#0696D7'], ['Fusion 360', null, 'Fusion', '#F07E13'], ['Revit', 'autodeskrevit'],
+  ['PTC Creo', null, 'Creo', '#2A7D2E'], ['COMSOL', 'comsol'], ['OpenFOAM', null, 'OpenFOAM', '#1F6FB2'], ['MATLAB', null, 'MATLAB', '#E16737'],
+  ['Simulink', null, 'Simulink', '#E16737'], ['Wolfram Mathematica', 'wolframmathematica'], ['Scilab', 'scilab'], ['LabVIEW', 'labview'],
+  ['Altium Designer', null, 'Altium', '#A5915F'], ['KiCad', 'kicad'], ['LTspice', 'ltspice'], ['Cadence', null, 'Cadence', '#CF0A2C'],
+  ['Xilinx Vivado', null, 'Vivado', '#E01F27'], ['Keil MDK', null, 'Keil', '#1B75BB'], ['Rhino 3D', 'rhinoceros'], ['SketchUp', 'sketchup'],
+  ['Bentley', 'bentley'], ['Trimble', 'trimble'], ['Blender', 'blender'], ['ROS', 'ros'],
+  ['Arduino', 'arduino'], ['Raspberry Pi', 'raspberrypi'], ['STMicroelectronics', 'stmicroelectronics'], ['Espressif', 'espressif'],
+  ['Arm', 'arm'], ['NVIDIA', 'nvidia'], ['Intel', 'intel'], ['AMD', 'amd'],
+  ['ABB', 'abb'], ['Siemens TIA Portal', null, 'TIA', '#009999'], ['Schneider Electric', 'schneiderelectric'], ['Bosch', 'bosch'],
+  ['Unity', 'unity'], ['Unreal Engine', 'unrealengine'], ['SAP', 'sap'], ['Microsoft Excel', null, 'Excel', '#107C41'],
+  ['Power BI', null, 'Power BI', '#F2C811'], ['Tableau', null, 'Tableau', '#E97627'], ['Google Sheets', 'googlesheets'], ['Google Analytics', 'googleanalytics'],
+  ['HubSpot', 'hubspot'], ['Jira', 'jira'], ['Notion', 'notion'], ['Figma', 'figma'], ['Framer', 'framer']
 ];
+function badge(text, color) {
+  var lines = text.split('\n'), size = lines.length > 1 ? 15 : (text.length > 7 ? 11 : text.length > 5 ? 14 : 18);
+  var tspans = lines.map(function (l, i) { return '<tspan x="30" dy="' + (i === 0 ? (lines.length > 1 ? -6 : 0) : size + 1) + '">' + l + '</tspan>'; }).join('');
+  var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><rect width="60" height="60" rx="12" fill="' + color + '"/><text x="30" y="30" dominant-baseline="central" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-weight="700" font-size="' + size + '" fill="#fff">' + tspans + '</text></svg>';
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
 function fillTool(el, t) {
   var img = el.querySelector('img'), tag = el.querySelector('[data-framer-name="tag"] p');
-  var src = 'https://cdn.simpleicons.org/' + t[1];
+  var src = t[1] ? 'https://cdn.simpleicons.org/' + t[1] : badge(t[2], t[3]);
   if (img && img.getAttribute('src') !== src) { img.setAttribute('src', src); img.removeAttribute('srcset'); img.setAttribute('sizes', '48px'); img.alt = t[0]; }
   if (tag && tag.textContent !== t[0]) tag.textContent = t[0];
   // Framer's staggered appear animation never runs for re-filled or cloned slots; show them as revealed.
