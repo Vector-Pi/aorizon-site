@@ -89,9 +89,8 @@ function injectHideStyles() {
   style.id = 'aorizon-hide-styles';
   style.textContent = [
     '[data-framer-name="UI/UX"] { display: none !important; }',
-    '[data-framer-name="ServicesIconsHover"] { display: none !important; }',
+    '[data-framer-name="ServicesIconsHover"] > div { display: flex !important; flex-wrap: wrap !important; justify-content: center; gap: 6px 2px; width: min(100%, 1100px) !important; height: auto !important; }',
     '[data-framer-name="ReviewsCarousel"] { display: none !important; }',
-    'li:has([data-framer-name="tag"]) { display: none !important; }',
     '[data-framer-name="ServiceItem"][data-aorizon-href] { cursor: pointer; }'
   ].join('\n');
   document.head.appendChild(style);
@@ -248,7 +247,48 @@ function setFaq(items) {
     });
   });
 }
-var TOOL_NAMES = ['Webflow', 'Cinema 4D', 'After Effects', 'Photoshop', 'PowerPiont', 'Google Ai Studio', 'Illustrator'];
+// Tools across the five practices and the engineering stack. Logos from Simple Icons (brand colour).
+var TOOLS = [
+  ['Python', 'python'], ['PyTorch', 'pytorch'], ['TensorFlow', 'tensorflow'], ['Hugging Face', 'huggingface'], ['OpenCV', 'opencv'],
+  ['Jupyter', 'jupyter'], ['Weights & Biases', 'weightsandbiases'], ['Docker', 'docker'], ['Kubernetes', 'kubernetes'], ['Terraform', 'terraform'],
+  ['Render', 'render'], ['Google Cloud', 'googlecloud'], ['PostgreSQL', 'postgresql'], ['Redis', 'redis'], ['FastAPI', 'fastapi'],
+  ['Node.js', 'nodedotjs'], ['TypeScript', 'typescript'], ['React', 'react'], ['Next.js', 'nextdotjs'], ['Flutter', 'flutter'],
+  ['GitHub', 'github'], ['Linux', 'linux'], ['Figma', 'figma'], ['Framer', 'framer'],
+  ['Google Analytics', 'googleanalytics'], ['HubSpot', 'hubspot'], ['Meta Ads', 'meta'], ['Mailchimp', 'mailchimp'],
+  ['Google Sheets', 'googlesheets'], ['Notion', 'notion'], ['Jira', 'jira'], ['Linear', 'linear'],
+  ['arXiv', 'arxiv'], ['LaTeX', 'latex'], ['MLflow', 'mlflow'], ['Claude', 'claude']
+];
+function fillTool(el, t) {
+  var img = el.querySelector('img'), tag = el.querySelector('[data-framer-name="tag"] p');
+  var src = 'https://cdn.simpleicons.org/' + t[1];
+  if (img && img.getAttribute('src') !== src) { img.setAttribute('src', src); img.removeAttribute('srcset'); img.setAttribute('sizes', '48px'); img.alt = t[0]; }
+  if (tag && tag.textContent !== t[0]) tag.textContent = t[0];
+  // Framer's staggered appear animation never runs for re-filled or cloned slots; show them as revealed.
+  var box = el.parentElement;
+  if (box && box.style.opacity !== '1') { box.style.opacity = '1'; box.style.transform = 'none'; box.style.willChange = 'auto'; }
+}
+function updateTools() {
+  // desktop strip: one container per tool, cloned to the full list
+  var strip = document.querySelector('[data-framer-name="ServicesIconsHover"]');
+  if (strip) {
+    var items = Array.from(strip.querySelectorAll('[data-framer-name="s"]'));
+    if (items.length) {
+      var row = items[0].parentElement.parentElement;
+      while (items.length < TOOLS.length) { var c = items[0].parentElement.cloneNode(true); row.appendChild(c); items.push(c.querySelector('[data-framer-name="s"]')); }
+      items.forEach(function (el, i) { if (i < TOOLS.length) fillTool(el, TOOLS[i]); else el.parentElement.style.display = 'none'; });
+    }
+  }
+  // mobile ticker: Framer repeats the list for the loop, so fill each repeat in sequence
+  var tickers = {};
+  document.querySelectorAll('li.ticker-item').forEach(function (li) { var ul = li.parentElement; if (ul && !tickers[ul.dataset.aorizonId]) { ul.dataset.aorizonId = ul.dataset.aorizonId || String(Math.random()).slice(2); tickers[ul.dataset.aorizonId] = ul; } });
+  Object.keys(tickers).forEach(function (k) {
+    var ul = tickers[k], lis = Array.from(ul.querySelectorAll(':scope > li.ticker-item'));
+    if (!lis.length) return;
+    while (lis.length < TOOLS.length) { var c = lis[lis.length - 1].cloneNode(true); ul.appendChild(c); lis.push(c); }
+    lis.forEach(function (li, i) { li.setAttribute('aria-posinset', String(i + 1)); li.setAttribute('aria-setsize', String(lis.length)); var el = li.querySelector('[data-framer-name="s"]'); if (el) fillTool(el, TOOLS[i % TOOLS.length]); });
+    if (ul.style.opacity !== '1') ul.style.opacity = '1';   // the ticker list fades in only after Framer measures it
+  });
+}
 
 var SERVICES_LEFT = [
   { title: 'Technology', label: 'Practice', href: 'technology.html', desc: 'Software engineering and AI & machine learning systems, designed from the problem up and built to run in production.' },
@@ -538,7 +578,7 @@ function applyAll() {
   injectHideStyles();
   hideElementsWithText(textsToHide);
   if (pageContent && pageContent.hideSections) hideByName(pageContent.hideSections);
-  if (PAGE === 'index') { hideByName(['Trusted by 20+ companies']); hideElementsWithText(TOOL_NAMES); hideFaq(HOME_HIDE_FAQ); setFaq(HOME_FAQ); updateServices(); updateProjectCards(); }
+  if (PAGE === 'index') { hideByName(['Trusted by 20+ companies']); updateTools(); hideFaq(HOME_HIDE_FAQ); setFaq(HOME_FAQ); updateServices(); updateProjectCards(); }
   replaceImages();
   replaceText();
   setTextBlocks(pageBlockList);
